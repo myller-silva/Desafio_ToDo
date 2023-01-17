@@ -1,0 +1,3 @@
+## criar Migration
+    dotnet ef --startup-project ../Todo.API migrations add NomeMigration
+    dotnet ef --startup-project ../Todo.API database update
