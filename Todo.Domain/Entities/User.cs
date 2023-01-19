@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Todo.Core;
 using Todo.Domain.Validators;
 
@@ -8,12 +9,9 @@ public class User : Base
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
-    
-    // EF
-    // public User()
-    // {
-    //     
-    // }
+
+    public virtual Collection<Assignment> Assignments { get; private set; } = new();
+    public virtual Collection<AssignmentList> AssignmentLists { get; private set; } = new(); 
 
     public User(string name, string email, string password)
     {

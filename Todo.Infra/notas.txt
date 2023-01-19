@@ -1,3 +1,4 @@
 ## criar Migration
+    primeiro entrar no projeto de Infra
     dotnet ef --startup-project ../Todo.API migrations add NomeMigration
     dotnet ef --startup-project ../Todo.API database update

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Todo.Infra.Context;
 
@@ -10,9 +11,11 @@ using Todo.Infra.Context;
 namespace Todo.Infra.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    partial class TodoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230119140109_TentandoRelacionarAssignmetComAssignmentList2")]
+    partial class TentandoRelacionarAssignmetComAssignmentList2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,7 @@ namespace Todo.Infra.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<bool>("Concluded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("ConcluedAt")
                         .HasColumnType("datetime(6)");
@@ -41,7 +42,7 @@ namespace Todo.Infra.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(101)");
+                        .HasColumnType("longtext");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -52,7 +53,7 @@ namespace Todo.Infra.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("assigment", (string)null);
+                    b.ToTable("Assignment");
                 });
 
             modelBuilder.Entity("Todo.Domain.Entities.AssignmentList", b =>
@@ -72,7 +73,7 @@ namespace Todo.Infra.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AssignmentList", (string)null);
+                    b.ToTable("AssignmentList");
                 });
 
             modelBuilder.Entity("Todo.Domain.Entities.User", b =>
@@ -100,8 +101,8 @@ namespace Todo.Infra.Migrations
 
             modelBuilder.Entity("Todo.Domain.Entities.Assignment", b =>
                 {
-                    b.HasOne("Todo.Domain.Entities.AssignmentList", "AssignmentList")
-                        .WithMany()
+                    b.HasOne("Todo.Domain.Entities.AssignmentList", null)
+                        .WithMany("Assignments")
                         .HasForeignKey("AssignmentListId");
 
                     b.HasOne("Todo.Domain.Entities.User", null)
@@ -109,8 +110,6 @@ namespace Todo.Infra.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AssignmentList");
                 });
 
             modelBuilder.Entity("Todo.Domain.Entities.AssignmentList", b =>
@@ -120,6 +119,11 @@ namespace Todo.Infra.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Todo.Domain.Entities.AssignmentList", b =>
+                {
+                    b.Navigation("Assignments");
                 });
 
             modelBuilder.Entity("Todo.Domain.Entities.User", b =>

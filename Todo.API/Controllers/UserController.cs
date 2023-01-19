@@ -7,7 +7,7 @@ using Todo.Services.DTO;
 namespace Todo.API.Controllers;
 
 [ApiController]
-[Route("api/user")]
+[Route("/api/user")]
 public class UserController: ControllerBase
 {
     // private readonly IUserService _userService;
@@ -20,7 +20,7 @@ public class UserController: ControllerBase
     // }  
 
     [HttpPost]
-    [Route("/create")]
+    [Route("create")]
     public async Task<ActionResult> Create([FromBody] CreateUserModel userModel)
     {
         try
@@ -32,7 +32,7 @@ public class UserController: ControllerBase
                 password: userModel.Password
             );
             user.Validate();
-            return Ok(user);
+            return Ok("nao implementado");
         }
         catch (DomainException ex)
         {
@@ -45,24 +45,24 @@ public class UserController: ControllerBase
     }
     
     [HttpPut]
-    [Route("/update")]
+    [Route("update")]
     public async Task<ActionResult> Update([FromBody] UpdateUserModel userModel)
     {
-        return Ok( userModel );
+        return Ok( "nao implementado" );
     }
 
     [HttpDelete]
-    [Route("/delete/{id}")]
+    [Route("delete/{id}")]
     public async Task<ActionResult> Delete(long id)
     {
         return Ok( "nao foi deletado pq nao foi implementado" );
     }
 
     [HttpGet]
-    [Route("/get/{id}")]
+    [Route("get/{id}")]
     public async Task<ActionResult> Get(long id)
     {
-        return Ok( id );
+        return Ok( "nao implementado" );
     }
 
 
