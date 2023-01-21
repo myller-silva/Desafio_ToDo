@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using Todo.Core;
+using Todo.Domain.Validators;
 
 namespace Todo.Domain.Entities;
 
@@ -25,6 +27,20 @@ public class AssignmentList : Base
 
     public override bool Validate()
     {
-        throw new NotImplementedException("Metodo Validate nao foi implementado");
+        var validator = new AssignmentListValidator();
+        var validation = validator.Validate(this);
+
+        if (!validation.IsValid)
+        {
+            foreach (var error in validation.Errors)
+            {
+                _erros.Add(error.ErrorMessage);
+            }
+
+            throw new DomainException("Alguns campos estao invalidos. ", _erros);
+        }
+
+        return true;
     }
+
 }

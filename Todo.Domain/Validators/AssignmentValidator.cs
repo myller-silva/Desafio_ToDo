@@ -5,7 +5,7 @@ namespace Todo.Domain.Validators;
 
 public class AssignmentValidator: AbstractValidator<Assignment>
 {
-    AssignmentValidator()
+    public AssignmentValidator()
     {
         RuleFor(x => x.Description)
             .MinimumLength(3)

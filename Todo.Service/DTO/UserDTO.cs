@@ -1,8 +1,7 @@
-namespace Todo.Services.DTO;
+namespace Service.DTO;
 
-public class UserDTO
-{
-    public long Id { get; set; }
+public class UserDTO: BaseDTO
+{ 
     public string Name { get; set; } //apagar os private set pq nao precisa ser uma entidade fechada
     public string Email { get; set; }
     public string Password { get; set; }

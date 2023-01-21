@@ -5,8 +5,7 @@ namespace Todo.Infra.Interfaces;
 public interface IAssignmentRepository: IBaseRepository<Assignment>
 {
     Task<List<Assignment>> GetAll(long userId);
-    Task<List<Assignment>> SearchByDescription(long id);
+    Task<List<Assignment>> SearchByDescription(string description);
     Task Remove(long userId, long assignmentId); 
-    new Task<Assignment> Update(Assignment assignment); //???
     
 }
