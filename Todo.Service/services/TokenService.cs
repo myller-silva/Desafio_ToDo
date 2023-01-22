@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Todo.Core;
 using Todo.Domain.Entities;
 
-namespace Service;
+namespace Service.services;
 
 public static class TokenService
 {

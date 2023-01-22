@@ -37,19 +37,19 @@ public class UserValidator: AbstractValidator<User>
 
             .EmailAddress()
             .WithMessage("Email incompatível.");
-        
+
         RuleFor(x => x.Password)
             .NotEmpty()
             .WithMessage("O Password não pode ser vazio")
 
             .NotNull()
             .WithMessage("O Password não pode ser nulo.")
-            
+
             .MinimumLength(8)
             .WithMessage("O Password deve ter no mínimo 8 caracteres.")
-            
-            .MaximumLength(80)
-            .WithMessage("O Password não pode passar de 80 caracteres");
-        
+            ;
+        // .MaximumLength(80)
+        // .WithMessage("O Password não pode passar de 80 caracteres");
+
     }
 }

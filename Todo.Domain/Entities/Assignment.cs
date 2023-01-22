@@ -6,7 +6,7 @@ namespace Todo.Domain.Entities;
 public class Assignment : Base
 {
     //tirar essa interrogacao
-    public long? UserId { get; private set; }               // obrigatorio
+    public long? UserId { get; set; }               // obrigatorio
     public string Description { get; private set; }
     public bool Concluded { get; private set; }
     public DateTime ConcluedAt { get; private set; } 

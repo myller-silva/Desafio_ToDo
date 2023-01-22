@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ScottBrady91.AspNetCore.Identity;
 using Service.DTO;
 using Service.interfaces;
 using Service.services;
@@ -12,8 +14,12 @@ using Todo.Infra.Interfaces;
 using Todo.Infra.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+builder
+    .Configuration
+    .SetBasePath(builder.Environment.ContentRootPath);
 
-var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
 
 
 #region JWT
@@ -40,24 +46,26 @@ builder.Services.AddSingleton(autoMapperConfig.CreateMapper());
 
 
 #region Dependencias
-builder.Services.AddSingleton(d => builder.Configuration);
-// builder.Services.AddDbContext<ManagerContext>(
-//     options => options.UseSqlServer(builder.Configuration["ConnectionStrings:USER_MANAGER"]), ServiceLifetime.Transient);
+builder.Services.AddSingleton(d => builder.Configuration); 
 builder.Services.AddScoped<IUserService, UserService>(); //pesquisar sobre isso
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAssignmentService, AssignmentService>();
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 #endregion
 
 
 
-
+#region Database
+var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContextPool<TodoDbContext>(
     options => options.UseMySql(
         mySqlConnection,
         ServerVersion.AutoDetect(mySqlConnection)
     )
 );
+#endregion
 
 builder.Services.AddControllers();
 

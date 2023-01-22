@@ -1,34 +1,38 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Service.DTO.Auth;
 using Service.interfaces;
 
 namespace Todo.API.Controllers;
 
 [ApiController]
-[Route("api/login")]
+[Route("auth")]
 public class LoginController:ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IAuthService _authService;
     private readonly IMapper _mapper;
 
-    public LoginController(IUserService userService, IMapper mapper)
+    public LoginController(IAuthService authService, IMapper mapper)
     {
-        _userService = userService;
+        _authService = authService;
         _mapper = mapper;
     }
 
-    [HttpPost]
-    [Route("user")]
+    [HttpPost("register")]
+    public async Task<ActionResult> Register([FromBody] RegisterDTO userInput)
+    {
+        var result = await _authService.Register(userInput);
+        return Ok(result) ;
+    }
+
+    [HttpPost("login")] 
     public async Task<ActionResult> Login(UserInput userInput)
     {
-        var user = await _userService.GetByEmail(userInput.Email);
-        if (user == null)
-            return BadRequest("Usuario nao encontrado");
-        if (user.Password != userInput.Password)
-        {
-            return BadRequest("Senha incorreta");
-        }
-        return Ok(user);
+        var userDto = new LoginDTO(
+            email: userInput.Email,
+            password: userInput.Password);
+        var token = await _authService.Login(userDto);
+        return Ok(token); 
     }
 }
 

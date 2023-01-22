@@ -20,6 +20,7 @@ public class User : Base
         Password = password;
         _erros = new List<string>(); 
     }
+ 
 
     public override bool Validate()
     {
