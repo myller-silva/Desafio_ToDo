@@ -7,13 +7,13 @@ public class Assignment : Base
 {
     //tirar essa interrogacao
     public long? UserId { get; set; }               // obrigatorio
-    public string Description { get; private set; }
-    public bool Concluded { get; private set; }
-    public DateTime ConcluedAt { get; private set; } 
-    public DateTime DeadLine { get; private set; }
-    
-    public long? AssignmentListId { get; private set; }   // nao obrigatorio
-    public AssignmentList? AssignmentList { get; private set; } = new();
+    public string Description { get;  set; }
+    public bool Concluded { get;  set; }
+    public DateTime ConcluedAt { get;  set; } 
+    public DateTime DeadLine { get;  set; }
+
+    public long? AssignmentListId { get; set; }   // nao obrigatorio
+    public AssignmentList? AssignmentList { get; private set; } //obs: essa linha é desnecessaria e pode causar bugs
 
     public Assignment() {}
     public Assignment(long? userId, string description, long? assignmentListId, bool concluded, DateTime concluedAt, DateTime deadLine)

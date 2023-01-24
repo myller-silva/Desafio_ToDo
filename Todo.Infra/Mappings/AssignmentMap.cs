@@ -13,7 +13,7 @@ public class AssignmentMap: IEntityTypeConfiguration<Assignment>
         
         builder.Property(x => x.Description)
             .IsRequired()
-            .HasColumnType("VARCHAR(101)");
+            .HasColumnType("VARCHAR(256)");
 
         builder.Property(x => x.UserId)
             .IsRequired();
@@ -21,7 +21,7 @@ public class AssignmentMap: IEntityTypeConfiguration<Assignment>
             .IsRequired(false);
         builder.Property(x => x.Concluded)
             .IsRequired()
-            .HasDefaultValue(false); //???
+            .HasDefaultValue(false); //por padrao irá atribuir falso
         
         
         

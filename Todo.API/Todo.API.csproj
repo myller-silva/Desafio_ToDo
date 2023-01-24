@@ -29,4 +29,12 @@
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Model\CreateAssigmentModel.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Model\AssignmentList\CreateAssignmentList" />
+    </ItemGroup>
+
 </Project>

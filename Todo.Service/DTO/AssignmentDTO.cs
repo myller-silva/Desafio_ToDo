@@ -8,13 +8,20 @@ public class AssignmentDTO: BaseDTO
     public bool Concluded { get; set; }
     public DateTime ConcluedAt { get; set; } 
     public DateTime DeadLine { get; set; }
-     
-    public AssignmentDTO(long userId, string description, bool concluded, DateTime concluedAt, DateTime deadLine)
+    public long? AssignmentListId { get; set; }
+
+    public AssignmentDTO()
+    {
+        
+    }
+
+    public AssignmentDTO(long userId, string description, bool concluded, DateTime concluedAt, DateTime deadLine, long? assignmentListId)
     {
         UserId = userId;
-        Description = description; 
+        Description = description;
         Concluded = concluded;
         ConcluedAt = concluedAt;
         DeadLine = deadLine;
+        AssignmentListId = assignmentListId;
     }
 }

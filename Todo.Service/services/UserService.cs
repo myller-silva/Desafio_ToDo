@@ -44,7 +44,7 @@ public class UserService: IUserService
 
     public async Task Remove(long userId)
     {
-        var user = Get(userId);
+        var user = await Get(userId);
         if (user == null)
         {
             throw new DomainException("Nao existe User com o Id informado");

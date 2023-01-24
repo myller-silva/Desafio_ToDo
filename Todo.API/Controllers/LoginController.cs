@@ -1,7 +1,10 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTO.Auth;
 using Service.interfaces;
+using Todo.Core;
 
 namespace Todo.API.Controllers;
 
@@ -9,41 +12,39 @@ namespace Todo.API.Controllers;
 [Route("auth")]
 public class LoginController:ControllerBase
 {
-    private readonly IAuthService _authService;
-    private readonly IMapper _mapper;
+    private readonly IAuthService _authService; 
 
-    public LoginController(IAuthService authService, IMapper mapper)
+    public LoginController(IAuthService authService)
     {
-        _authService = authService;
-        _mapper = mapper;
+        _authService = authService; 
     }
 
+    
     [HttpPost("register")]
     public async Task<ActionResult> Register([FromBody] RegisterDTO userInput)
     {
-        var result = await _authService.Register(userInput);
-        return Ok(result) ;
+        try
+        {
+            var result = await _authService.Register(userInput);
+            return Ok(result) ;
+        }
+        catch (DomainException ex)
+        {
+            return BadRequest("Erro de dominio: " + ex.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, "Erro interno: " + e.Message);
+        }
     }
 
     [HttpPost("login")] 
-    public async Task<ActionResult> Login(UserInput userInput)
+    public async Task<ActionResult> Login(LoginDTO userInput)
     {
         var userDto = new LoginDTO(
             email: userInput.Email,
             password: userInput.Password);
         var token = await _authService.Login(userDto);
         return Ok(token); 
-    }
-}
-
-public class UserInput
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
-
-    public UserInput(string email, string password)
-    {
-        Email = email;
-        Password = password;
     }
 }

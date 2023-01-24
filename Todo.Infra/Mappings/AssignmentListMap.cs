@@ -10,6 +10,14 @@ public class AssignmentListMap: IEntityTypeConfiguration<AssignmentList>
     {
         builder.ToTable("AssignmentList");
         builder.HasKey(x => x.Id);
-
+        
+        builder.Property(x=>x.Name)
+            .IsRequired() //deixo falso ou nao?
+            .HasColumnType("VARCHAR(50)");
+        
+        builder.Property(x=>x.UserId)
+            .IsRequired();
+        
+        
     }
 }

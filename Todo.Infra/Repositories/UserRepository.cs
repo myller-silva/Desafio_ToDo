@@ -16,13 +16,21 @@ public class UserRepository: BaseRepository<User>, IUserRepository
 
     public virtual async Task Remove(long id)
     {
-        var user = await _context.Users
+        var users = await _context.Users
             .AsNoTracking()
             .Where(x=>x.Id==id)
             .ToListAsync();
-        
+        var user = users.FirstOrDefault();
         if (user != null)
         {
+            // #region remover todas as tasks do usuario
+            // var assignments = await  _context.Assignments
+            //     .Where(x=>x.UserId==user.Id & x.AssignmentListId==null)
+            //     .AsNoTracking()
+            //     .ToListAsync(); 
+            //
+            // _context.Assignments.RemoveRange(assignments);
+            // #endregion
             _context.Remove(user);
             await _context.SaveChangesAsync();
         }
@@ -45,9 +53,9 @@ public class UserRepository: BaseRepository<User>, IUserRepository
         return users;
     }
     
-    public Task<List<User>> SearchByName(string name)
+    public async Task<List<User>> SearchByName(string name)
     {
-        var users = _context.Users
+        var users = await _context.Users
             .Where(
                 x => x.Name.ToLower().Contains(name)
             )

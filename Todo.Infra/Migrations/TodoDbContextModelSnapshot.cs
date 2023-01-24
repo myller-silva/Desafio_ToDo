@@ -41,7 +41,7 @@ namespace Todo.Infra.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(101)");
+                        .HasColumnType("VARCHAR(256)");
 
                     b.Property<long?>("UserId")
                         .IsRequired()
@@ -64,7 +64,7 @@ namespace Todo.Infra.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -88,7 +88,7 @@ namespace Todo.Infra.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(100)");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()

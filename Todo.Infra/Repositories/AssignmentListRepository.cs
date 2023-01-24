@@ -24,6 +24,7 @@ public class AssignmentListRepository:BaseRepository<AssignmentList>, IAssignmen
         return assignmentList.FirstOrDefault();
     }
 
+    
     public virtual async Task Remove(long userId, long assignmentListId) //??
     {
         var assignments = await _context.Assignments
@@ -34,6 +35,8 @@ public class AssignmentListRepository:BaseRepository<AssignmentList>, IAssignmen
 
         var assignment = assignments.FirstOrDefault();
         if (assignment != null) assignments.Remove(assignment);
-        _context.SaveChangesAsync(); 
+        await _context.SaveChangesAsync(); 
     }
+    
+    
 }

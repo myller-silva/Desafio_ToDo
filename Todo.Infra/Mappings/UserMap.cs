@@ -14,7 +14,7 @@ public class UserMap: IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Name)
             .IsRequired()
-            .HasColumnType("VARCHAR(100)");
+            .HasColumnType("VARCHAR(50)");
 
         builder.Property(x => x.Email)
             .IsRequired()

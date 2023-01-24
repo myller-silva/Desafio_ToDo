@@ -1,10 +1,16 @@
-using Microsoft.AspNetCore.Identity; 
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Service.DTO;
 using Service.DTO.Auth;
 using Service.interfaces;
 using Todo.Core;
 using Todo.Domain.Entities;
-using Todo.Infra.Interfaces; 
+using Todo.Infra.Interfaces;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+
 namespace Service.services;
 
 public class AuthService: IAuthService
@@ -57,12 +63,38 @@ public class AuthService: IAuthService
 
     private TokenDTO GerarToken(User user)
     {
-        var hoursExpiracaoToken = 1; // _appSettings.ExpiracaoToken
-        var encodedToken =  TokenService.GenerateToken(user);
+        var claims = new List<Claim>
+        {
+            new ("Id", user.Id.ToString()),
+            new (JwtRegisteredClaimNames.Name, user.Name),
+            new (JwtRegisteredClaimNames.Email, user.Email),
+            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new (JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()),
+            new (JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString())
+        };
+
+
+        var identityClaims = new ClaimsIdentity();
+        identityClaims.AddClaims(claims);
+
+        var tokenHandler = new JwtSecurityTokenHandler(); 
+        var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
+        {
+            Subject = identityClaims,
+            // Issuer = _appSettings.Issuer, //modificar depois
+            // Audience = _appSettings.Audience,
+            Issuer = Settings.Issuer, 
+            Audience = Settings.Audience,
+            Expires = DateTime.UtcNow.AddHours(Settings.ExpiracaoToken),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings.Secret)), 
+                SecurityAlgorithms.HmacSha256Signature)
+        });
+        var encodedToken = tokenHandler.WriteToken(token);
+
         return new TokenDTO
         {
             AccessToken = encodedToken,
-            ExpiresIn = TimeSpan.FromHours(hoursExpiracaoToken).TotalSeconds,
+            ExpiresIn = TimeSpan.FromHours(Settings.ExpiracaoToken).TotalSeconds,
             User = new UserDTO
             {
                 Id = user.Id,

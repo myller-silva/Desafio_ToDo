@@ -18,6 +18,7 @@ public class RegisterDTO
     public string Password { get; set; }
     
     [Required]
+    [PasswordPropertyText]
     [Compare("Password")]
     public string PasswordConfirm { get; set; }
 
